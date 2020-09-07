@@ -1,0 +1,28 @@
+
+  <div class="login">
+    <h2 class="login-header">Log in</h2>
+    <div *ngIf="incorrectError" class="login-error m-b-10">Username or password is incorrect.</div>
+    <form class="login-container" (ngSubmit)="onSubmit()" ngNativeValidate>
+      <p>
+          <input [(ngModel)]="user.email"
+          name="email"
+          type="email"
+          required
+          id="email"
+          placeholder="Email">
+        </p>
+      <p>
+          <input  [(ngModel)]="user.password"
+          name="password"
+          type="password"
+          required
+          id="password"
+          placeholder="Password"></p>
+      <p><input type="submit" value="Log in"></p>
+      <a [routerLink]="['/home']" >Cancel</a>
+    </form>
+    <p>
+        <span>Don't have an account?&nbsp;</span>
+        <a [routerLink]="['/sign-up']">Sign up!</a>
+      </p>
+  </div>

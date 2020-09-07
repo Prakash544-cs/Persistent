@@ -1,0 +1,30 @@
+
+  <div class="login">
+    <h2 class="login-header">Registration</h2>
+    <form class="login-container" (ngSubmit)="onSubmit()" ngNativeValidate>
+      <p>
+          <input 
+          [(ngModel)]="user.email"
+            name="email"
+            type="email"
+            required
+            placeholder="Enter Email"
+            class="form-control"
+            id="email">
+        </p>
+      <p>
+          <input [(ngModel)]="user.password"
+          name="password"
+          type="password"
+          required
+          class="form-control"
+          id="password" placeholder="Enter Password"></p>
+      <p><input type="submit" area-label="singup" tabindex="0" value="SignUp"></p>
+      <!-- <button type="submit">Submit</button> -->
+      <a [routerLink]="['/']" >Cancel</a>
+    </form>
+    <p>
+      <span>Already have an account?&nbsp;</span>
+      <a [routerLink]="['/log-in']">Log in!</a>
+    </p>
+</div>

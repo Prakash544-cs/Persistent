@@ -1,0 +1,21 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: auto;
+    // background-color:black;
+    padding: 10px;
+    width: 800px;
+  }
+  .grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid black;
+    padding: 10px;
+    font-size: 15px; 
+    color: black;
+  }
+  .buttons{
+    float: right;
+  }
+  .texts{
+    text-align: left;
+    font-size:20px;
+  }

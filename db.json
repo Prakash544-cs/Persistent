@@ -1,0 +1,281 @@
+{
+  "users": [],
+  "quotes": [],
+  "musics": [
+    {
+      "song": "Inkem Inkem Inkem Kaavale",
+      "movie": "Geetha Govindam",
+      "id": 3
+    },
+    {
+      "song": "Daari Choodu",
+      "movie": "Krishnarjuna Yuddham",
+      "id": 4
+    },
+    {
+      "song": "Rangamma Mangamma",
+      "movie": "Rangasthalam",
+      "id": 5
+    },
+    {
+      "song": "Pilla Raa",
+      "movie": "RX 100",
+      "id": 6
+    },
+    {
+      "song": "Choosi chudangane nacchesave",
+      "movie": "Chalo",
+      "id": 7
+    },
+    {
+      "song": "Mahanati",
+      "movie": "Mahanati",
+      "id": 8
+    },
+    {
+      "song": "Vachadayyo Saami",
+      "movie": "Bharat Ane Nenu",
+      "id": 9
+    },
+    {
+      "song": "the karma theme",
+      "movie": "U turn ",
+      "id": 10
+    }
+  ],
+  "login": [
+    {
+      "id": "1",
+      "email": "prakash0544@gmail.com",
+      "password": "prakash123"
+    },
+    {
+      "email": "prakash@gmail.com",
+      "password": "test",
+      "id": "OWdcEre"
+    },
+    {
+      "email": "vb@gmail.com",
+      "password": "test",
+      "id": "zjFjse7"
+    },
+    {
+      "email": "ab@gmail.com",
+      "password": "test",
+      "id": "S7VcGXR"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "raju",
+      "id": "WBotsdJ"
+    },
+    {
+      "email": "prakash@gmail.com",
+      "password": "test",
+      "id": "5p_cXTn"
+    },
+    {
+      "email": "p@gmail.com",
+      "password": "test",
+      "id": "wHvDr-S"
+    },
+    {
+      "email": "test@test.com",
+      "password": "test",
+      "id": "32-Clg1"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "eeed",
+      "id": "qeywXld"
+    },
+    {
+      "email": "d@gmail.com",
+      "password": "test",
+      "id": "AXcurIY"
+    },
+    {
+      "email": "test@test.com",
+      "password": "rres",
+      "id": "cOsopCl"
+    },
+    {
+      "email": {
+        "email": "c@gmail.com",
+        "password": "raju"
+      },
+      "id": "37MOV5c"
+    },
+    {
+      "email": {
+        "email": "c@gmail.com",
+        "password": "raju"
+      },
+      "id": "JXGjet1"
+    },
+    {
+      "email": {
+        "email": "z@gmail.com",
+        "password": "raju"
+      },
+      "id": "jOB9t_5"
+    },
+    {
+      "email": "prakash@gmail.com",
+      "password": "asdf",
+      "id": "c3QarpF"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "raju",
+      "id": "Vnib6lo"
+    },
+    {
+      "email": "prakash@gmail.com",
+      "password": "raju",
+      "id": "q2gUmG8"
+    },
+    {
+      "email": "prakash@gmail.com",
+      "password": "Raju",
+      "id": "wHu19mY"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "test",
+      "id": "60AMpYN"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "test",
+      "id": "LgFg5P5"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "test",
+      "id": "tE9DxLt"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "test",
+      "id": "GzLiy8D"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "test",
+      "id": "6y30BAQ"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "test",
+      "id": "f_bdj6U"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "test",
+      "id": "JbNjtVb"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "test",
+      "id": "CCdGmtc"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "test",
+      "id": "PC9j1rG"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "test",
+      "id": "6j1sCs9"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "test",
+      "id": "mnnJTmd"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "test",
+      "id": "_EXaVKY"
+    }
+  ],
+  "register": [
+    {
+      "id": "1",
+      "username": "prakash",
+      "email": "prakah0544@gmail.com",
+      "password": "prakash123"
+    },
+    {
+      "email": "prakash@gmail.com",
+      "password": "test",
+      "id": "yisO5QV"
+    },
+    {
+      "email": "vb@gmail.com",
+      "password": "test",
+      "id": "uXKiIpl"
+    },
+    {
+      "email": "ab@gmail.com",
+      "password": "test",
+      "id": "oO0Ocw8"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "test",
+      "id": "l_GD0eF"
+    },
+    {
+      "email": "a@gmail.com",
+      "password": "test",
+      "id": "EyKUuOj"
+    },
+    {
+      "email": "a@gmail.com",
+      "password": "test",
+      "id": "_zmXYLf"
+    },
+    {
+      "email": "test@test.com",
+      "password": "aasd",
+      "id": "zEMsthB"
+    },
+    {
+      "email": "abb@gmail.com",
+      "password": "test",
+      "id": "Hi1XuXF"
+    },
+    {
+      "email": {
+        "email": "prakash0544@gmail.com",
+        "password": "raju"
+      },
+      "id": "aAoakI7"
+    },
+    {
+      "email": {
+        "email": "prakash@gmail.com",
+        "password": "raju"
+      },
+      "id": "JbIVPCE"
+    },
+    {
+      "email": "adfsajdf@gmail.com",
+      "password": "sdf",
+      "id": "zT1nt6U"
+    },
+    {
+      "email": "ab@gmail.com",
+      "password": "rassd",
+      "id": "f-kkqjO"
+    },
+    {
+      "email": "prakash0544@gmail.com",
+      "password": "test",
+      "id": "SLYhgob"
+    }
+  ]
+}

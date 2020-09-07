@@ -1,0 +1,20 @@
+<div class="add">
+  <h2 class="add-header">Create Form</h2>
+  <form class="add-container" (ngSubmit)="onSubmit()"  ngNativeValidate>
+    <p>
+        <input type="text"  [(ngModel)]="music.song"
+        name="song"
+        type="text"
+        id="song"
+        placeholder="Enter Song Name" required autofocus>
+      </p>
+    <p>
+        <input [(ngModel)]="music.movie"
+        name="movie"
+        type="text"
+        id="movie"
+        placeholder="Enter Movie Name" required></p>
+    <p><input area-label="add" tabindex="0" type="submit"  name="submit" type="submit" value="Submit"></p>
+    <a [routerLink]="['/list-music']" >Cancel</a>
+  </form>
+</div>

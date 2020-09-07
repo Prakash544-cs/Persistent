@@ -1,0 +1,13 @@
+
+:root {
+    /* Colors */
+    --background-default: #fff4f7;
+    --primary-default: #000000;
+  }
+  
+  body {
+    background: var(--background-default);
+    color:var(--primary-default);
+    padding: 0;
+    margin: 0;
+  }

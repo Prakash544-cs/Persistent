@@ -1,0 +1,16 @@
+<div class="edit">
+    <h2 class="edit-header">Edit Form</h2>
+    <form class="edit-container" [formGroup]="editform" (ngSubmit)="submit()" ngNativeValidate>
+      <p>
+          <input type="text"   name="song" id="song" formControlName="song"
+          required
+          placeholder="Email">
+        </p>
+      <p>
+          <input name="movie" id="movie" formControlName="movie"
+          required
+          placeholder="Password"></p>
+      <p><input type="submit" [disabled]="!editform.valid" area-label="editbutton" tabindex="0" value="Submit"></p>
+      <a [routerLink]="['/list-music']" area-label="canel" tabindex="0"  >Cancel</a>
+    </form>
+  </div>
