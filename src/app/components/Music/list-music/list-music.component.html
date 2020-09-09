@@ -1,0 +1,15 @@
+
+<button type="button" routerLink="/add-music">Create</button>
+<div class="grid-container" *ngFor="let music of musics">
+ 
+    <div class="grid-item">
+     <div class="texts">
+      <h6><span style="color:white">11</span>Song:{{ music.song }}</h6>
+      <h6><span style="color:white">11</span>Movie:{{music.movie}}</h6>
+    </div>
+    <div class="buttons">
+        <button type="button" class="delbtn" (click)="deleteMusic(music.id)" value="Delete" >Delete</button>
+        <button type="button" class="editbtn" href="#" [routerLink]="['/edit-music/', music.id]">Edit</button>
+    </div>
+    </div>
+  </div>

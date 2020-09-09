@@ -1,0 +1,23 @@
+.item1 { grid-area: header; }
+
+
+
+.grid-container {
+    display: grid;
+    grid-template-areas:
+      'header header header header header header';
+    /* grid-gap: 100%; */
+    //background-color: #21f379;
+    padding: 10px;
+  }
+  
+  .grid-container > div {
+    background-color: #ffffffcc;
+    text-align: center;
+    // padding: 10px 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+ 
+
+    font-size: 30px;
+  }

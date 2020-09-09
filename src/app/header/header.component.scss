@@ -1,0 +1,40 @@
+.item1 { grid-area: header; }
+
+.item1 .home {
+    float: left;
+    text-decoration: none;
+}
+
+.item1 .login  {
+    float: right;
+    padding-right: 5px;
+    text-decoration: none;
+}
+
+.item1 .registration  {
+    float: right;
+    padding-right: 5px;
+    text-decoration: none;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'header header header header header header';
+  /* grid-gap: 100%; */
+  background-color: #2196F3;
+  padding: 10px;
+  width: 100%;
+}
+
+.grid-container > div {
+  background-color: #ffffffcc;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+ 
+.logoutBtn {
+  cursor: pointer;
+}
+.themes{width: 200px; font-size:16px;margin:10px;}
