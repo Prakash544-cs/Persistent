@@ -1,5 +1,5 @@
 
-<div class="grid-container">
+<div class="grid-container-header">
   <div class="item1">
     <div *ngIf="isAuthenticated; then doSomething; else doSomethingElse;"></div>
     <ng-template #doSomething>
@@ -10,8 +10,9 @@
     </ng-template>
     <ng-template #doSomethingElse>
       <a class="home"area-label="home" tabindex="0"  routerLink="/home">Home</a>
-      <a class="registration" area-label="sing" tabindex="0"  routerLink="/sign-up">Signup</a>
       <a class="login" area-label="login" tabindex="0"  routerLink="/log-in">Login</a>   
+      <a class="registration" area-label="sing" tabindex="0"  routerLink="/sign-up">Signup</a>
+      
     </ng-template>
   </div>
 </div>

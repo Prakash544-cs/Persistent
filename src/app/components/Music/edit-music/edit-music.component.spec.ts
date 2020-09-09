@@ -12,12 +12,7 @@ describe('EditMusicComponent', () => {
   let component: EditMusicComponent;
   let fixture: ComponentFixture<EditMusicComponent>;
   let store: MockStore;
-  // const initialState = {
-  //   isAuthenticated: false,
-  //   user: null,
-  //   errorMessage: null
-  // };
- 
+  
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [EditMusicComponent],

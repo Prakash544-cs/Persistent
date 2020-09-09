@@ -17,17 +17,16 @@
     text-decoration: none;
 }
 
-.grid-container {
+.grid-container-header {
   display: grid;
   grid-template-areas:
     'header header header header header header';
   /* grid-gap: 100%; */
   background-color: #2196F3;
   padding: 10px;
-  width: 100%;
 }
 
-.grid-container > div {
+.grid-container-header > div {
   background-color: #ffffffcc;
   text-align: center;
   padding: 20px 0;
