@@ -30,9 +30,7 @@ export class EditMusicComponent implements OnInit {
     public fbs: FormBuilder,
     private router: Router
   ) 
-  {  
-    this.getState = this.store.select(selectMusicState);
-  }
+  {  this.getState = this.store.select(selectMusicState); }
 
   ngOnInit(): void {
 

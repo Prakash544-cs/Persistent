@@ -22,9 +22,11 @@ export class SignUpComponent implements OnInit {
      this.getState = this.store.select(selectAuthState);
     }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getState.subscribe((state) => {
-      this.errorMessage = state.errorMessage;
+      if (state) {
+        this.errorMessage = state.errorMessage;
+      }
     });
   }
   onSubmit(): void {
@@ -33,6 +35,5 @@ export class SignUpComponent implements OnInit {
       password: this.user.password
     };
     this.store.dispatch(new SignUp(payload));
-    
   }
 }

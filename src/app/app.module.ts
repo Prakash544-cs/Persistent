@@ -1,15 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common'
-import { FormsModule } from '@angular/forms'  
-import { ReactiveFormsModule} from '@angular/forms' 
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { StoreModule } from '@ngrx/store';
 
-import { CanActivateMusic } from "./canActivate";
+import { CanActivateMusic } from './canActivate';
 
 import { AppComponent } from './app.component';
 import { LandingComponent } from './components/landing/landing.component';
@@ -43,7 +43,7 @@ import { EditMusicComponent } from './components/music/edit-music/edit-music.com
       { path: 'log-in', component: LogInComponent },
       { path: 'sign-up', component: SignUpComponent },
       { path: '', component: LandingComponent },
-      { path: 'add-music', component: AddMusicComponent ,canActivate: [CanActivateMusic]},
+      { path: 'add-music', component: AddMusicComponent , canActivate: [CanActivateMusic]},
       { path: 'list-music', component: ListMusicComponent, canActivate: [CanActivateMusic] },
       { path: 'edit-music/:musicId', component: EditMusicComponent, canActivate: [CanActivateMusic] },
       { path: '**', redirectTo: '/'}
@@ -54,8 +54,7 @@ import { EditMusicComponent } from './components/music/edit-music/edit-music.com
     HttpClientModule,
     StoreModule.forRoot(reducers, {}),
     EffectsModule.forRoot([]),
-    EffectsModule.forFeature([AuthEffects,MusicEffects])
-    
+    EffectsModule.forFeature([AuthEffects, MusicEffects])
   ],
   providers: [Store, AuthService],
   bootstrap: [AppComponent]

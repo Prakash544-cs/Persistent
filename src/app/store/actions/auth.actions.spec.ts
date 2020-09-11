@@ -1,84 +1,60 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { AuthService } from '../../services/auth.service';
 import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+  SignUpSuccess,
+  SignUpFailure,
+  LogInSuccess,
+  LogInFailure,
+  LogOut,
+} from './auth.actions';
+import { AuthActionTypes, LogIn, SignUp } from './auth.actions';
 
-const mockUsers = [
-  {
-    email: 'prakash@gmail.com',
-    password: 'test',
-  },
-];
+const mockUser = {
+  email: 'prakash0544@gmail.com',
+  password: 'test',
+};
 
-describe('AuthService', () => {
-  let service: AuthService;
-  let httpTestingController: HttpTestingController;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [AuthService],
-    });
-    this.service = TestBed.inject(AuthService);
-  });
-
-  beforeEach(inject(
-    [AuthService, HttpTestingController],
-    (serviceName, httpMockName) => {
-      service = serviceName;
-      httpTestingController = httpMockName;
-    }
-  ));
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-//   it('login: should return an array containing the valid user', () => {
-//     const mockCheckLoginUser = {
-//         id : '6y30BAQ',
-//       email: 'prakash0544@gmail.com',
-//       password: 'test',
-//     };
-//     this.service
-//       .logIn({
-//         email: 'prakash0544@gmail.com',
-//         password: 'test',
-//       })
-//       .subscribe((user) => {
-//         expect(user).toBeDefined();
-//         expect(user.length).toBe(1);
-//         expect(user.id).toBe(1);
-//       });
-//     const req = httpTestingController.expectOne(
-//       'http://localhost:3000/login?email=' +
-//         mockCheckLoginUser.email +
-//         '&password=' +
-//         mockCheckLoginUser.password
-//     );
-//     req.flush(mockUsers);
-//     httpTestingController.verify();
-//   });
-
-  it('signup: should return an array containing the valid user', () => {
-    const mockCheckLoginUser = {
-      name: 'test',
-      email: 'prakash0544@gmail.com',
-      password: 'test',
-    };
-    this.service.signUp(mockCheckLoginUser).subscribe((user) => {
-      expect(user).toBeDefined();
-      expect(user.id).toBeDefined();
-      expect(user.name).toBe(mockCheckLoginUser.name);
-      expect(user.email).toBe(mockCheckLoginUser.email);
-      expect(user.password).toBe(mockCheckLoginUser.password);
-    });
-    const req = httpTestingController.expectOne(
-      'http://localhost:3000/register'
-    );
-    req.flush(mockUsers);
-    httpTestingController.verify();
+describe('LogIn', () => {
+  it('should create an action of type LogIn', () => {
+    const action = new LogIn(mockUser);
+    expect(action.type).toEqual(AuthActionTypes.LOGIN);
   });
 });
+
+describe('SignUp', () => {
+  it('should create an action of type SignUp', () => {
+    const action = new SignUp(mockUser);
+    expect(action.type).toEqual(AuthActionTypes.SIGNUP);
+  });
+});
+
+describe('LogOut', () => {
+  it('should create an action of type LogOut', () => {
+    const action = new LogOut();
+    expect(action.type).toEqual(AuthActionTypes.LOGOUT);
+  });
+});
+
+describe('SignUpSuccess', () => {
+  it('should create an action of type SignUp Success', () => {
+    const action = new SignUpSuccess(mockUser);
+    expect(action.type).toEqual(AuthActionTypes.SIGNUP_SUCCESS);
+  });
+});
+describe('LogInSuccess', () => {
+  it('should create an action of type Login Success', () => {
+    const action = new LogInSuccess(mockUser);
+    expect(action.type).toEqual(AuthActionTypes.LOGIN_SUCCESS);
+  });
+});
+describe('SignUpFailure', () => {
+  it('should create an action of type SignUp Failure', () => {
+    const action = new SignUpFailure(mockUser);
+    expect(action.type).toEqual(AuthActionTypes.SIGNUP_FAILURE);
+  });
+});
+describe('LogInFailure', () => {
+  it('should create an action of type Login Failure', () => {
+    const action = new LogInFailure(mockUser);
+    expect(action.type).toEqual(AuthActionTypes.LOGIN_FAILURE);
+  });
+});
+

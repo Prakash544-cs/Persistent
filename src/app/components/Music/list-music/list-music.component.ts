@@ -24,7 +24,7 @@ export class ListMusicComponent implements OnInit {
   
     this.store.dispatch(new ListMusics());
     this.store.subscribe(data => {
-      this.musics = data.music.musics;
+        this.musics = data.music.musics;
     });
 
   }

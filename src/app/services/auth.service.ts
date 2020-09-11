@@ -5,14 +5,14 @@ import {catchError} from 'rxjs/operators';
 
 import { User } from '../models/user';
 import { Music } from '../models/music';
-
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-   readonly BASE_URL = 'http://localhost:3000';
 
+public BASE_URL = environment.apiUrl;
   private errMessage: string;
 
   get errorMessage(): string {
@@ -48,26 +48,25 @@ export class AuthService {
   }
 
   getSignUpData(): Observable<Music[]> {
-    const url = `${this.BASE_URL}/register`; 
+    const url = `${this.BASE_URL}/register`;
   return this.http.get<Music[]>(url, this.httpOptions)
         .pipe(
-  catchError(this.errorHandler)
+               catchError(this.errorHandler)
         )
     }
-  
   signUp(email: string, password: string): Observable<User> {
-    const url = `${this.BASE_URL}/register`; 
+    const url = `${this.BASE_URL}/register`;
     return this.http.post<User>(url, {email, password}, this.httpOptions)
     .pipe(
       catchError(this.errorHandler)
-    )
+    );
   }
   getAllMusics(): Observable<Music[]> {
     const url = `${this.BASE_URL}/musics`;
     return this.http.get<Music[]>(url, this.httpOptions )
     .pipe(
       catchError(this.errorHandler)
-    )
+    );
   }
 
   getMusicById(id: number): Observable<Music> {
@@ -75,23 +74,22 @@ export class AuthService {
     return this.http.get<Music>(url + id, this.httpOptions)
     .pipe(
       catchError(this.errorHandler)
-    )
+    );
   }
-  
   createMusic(song: string, movie: string): Observable<Music> {
     const url = `${this.BASE_URL}/musics`;
-    return this.http.post<Music>(url,{song, movie}, this.httpOptions )
+    return this.http.post<Music>(url, {song, movie}, this.httpOptions )
     .pipe(
       catchError(this.errorHandler)
-    )
+    );
   }
 
   deleteMusic(id): Observable<any> {
     const url = `${this.BASE_URL}/musics`;
-    return this.http.delete(`${this.BASE_URL}/`+'musics/' + id, this.httpOptions)
+    return this.http.delete(`${this.BASE_URL}/` + 'musics/' + id, this.httpOptions)
     .pipe(
       catchError(this.errorHandler)
-    )
+    );
   }
 
   updateMusic(id, user ): Observable<Music> {
@@ -99,12 +97,12 @@ export class AuthService {
     return this.http.put<Music>(url + id, user, this.httpOptions)
     .pipe(
       catchError(this.errorHandler)
-    )
+    );
   }
 
   errorHandler(error) {
     let errorMessage = '';
-    if(error.error instanceof ErrorEvent) {
+    if (error.error instanceof ErrorEvent) {
    // Get client-side error
       errorMessage = error.error.message;
     } else {
@@ -114,5 +112,4 @@ export class AuthService {
     console.log(errorMessage);
     return throwError(errorMessage);
  }
-
 }

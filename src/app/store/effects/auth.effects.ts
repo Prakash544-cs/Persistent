@@ -30,11 +30,9 @@ ofType(AuthActionTypes.LOGIN)).pipe(
     map((action: LogIn) => action.payload)).pipe(switchMap(payload => {
     return this.authService.logIn(payload.email, payload.password).pipe(
         map((user) => {
-        console.log(user);
         return new LogInSuccess({token: user.token, email: payload.email});
       })).pipe(catchError((error) => {
-        console.log(error);
-        return of(new LogInFailure({ error: error }));
+        return of(new LogInFailure({ error }));
       }));
   }));
 

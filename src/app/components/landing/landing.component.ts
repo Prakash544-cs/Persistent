@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable, from } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
-import { Music } from '../../models/music'
+import { Music } from '../../models/music';
 
 import { AppState, selectAuthState } from '../../store/app.states';
 import { LogOut } from '../../store/actions/auth.actions';
@@ -27,21 +27,23 @@ export class LandingComponent implements OnInit {
   ) {this.getState = this.store.select(selectAuthState);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getState.subscribe((state) => {
-      this.isAuthenticated = state.isAuthenticated;
-      this.user = state.user;
-      this.errorMessage = state.errorMessage;
+      if (state){
+        this.isAuthenticated = state.isAuthenticated;
+        this.user = state.user;
+        this.errorMessage = state.errorMessage;
+      }
     });
 
     this.apiService.getAllMusics()
       .subscribe(data => {
-        this.musics = data
-      })
+        this.musics = data;
+      });
   }
 
   logOut(): void {
-    this.store.dispatch(new LogOut);
+    this.store.dispatch(new LogOut());
   }
 
 }

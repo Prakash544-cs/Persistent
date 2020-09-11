@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { User } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
 import { AppState , selectAuthState } from '../../store/app.states';
-import { LogIn } from '../../store/actions/auth.actions';;
+import { LogIn } from '../../store/actions/auth.actions';
 
 @Component({
   selector: 'app-log-in',
@@ -20,15 +20,18 @@ export class LogInComponent implements OnInit {
   allSignupData: any;
   incorrectError = false;
 
-  constructor(private store: Store<AppState>,private authService: AuthService ) { 
+  constructor(private store: Store<AppState>, private authService: AuthService ) {
+
     this.getState = this.store.select(selectAuthState);
   }
 
-  ngOnInit() {
+  ngOnInit(): void  {
     this.getState.subscribe((state) => {
-      this.errorMessage = state.errorMessage;
+      if (state){
+        this.errorMessage = state.errorMessage;
+      }
     });
-  };
+  }
 
   onSubmit(): void {
     this.authService.getSignUpData().subscribe((response) => {

@@ -29,6 +29,10 @@ describe('AuthService', () => {
     expect(service.BASE_URL).toBeDefined();
   });
 
- 
+
+  it(`should have BASE_URL contain 'http://localhost:3000'`, () => {
+    expect(service.BASE_URL).toContain('http://localhost:3000');
+  });
+
 });
  

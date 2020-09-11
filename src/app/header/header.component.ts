@@ -22,19 +22,21 @@ export class HeaderComponent implements OnInit {
   user = null;
   theme = 'ligth';
   errorMessage = null;
-  constructor(private store: Store<AppState>, private router: Router, private themeService: ThemeService) {
+  constructor(private store: Store<AppState>, private router: Router, public themeService: ThemeService) {
     this.getState = this.store.select(selectAuthState);
   }
 
   ngOnInit(): void {
     this.getState.subscribe((state) => {
-      this.isAuthenticated = state.isAuthenticated;
-      this.user = state.user;
-      this.errorMessage = state.errorMessage;
+      if (state){
+        this.isAuthenticated = state.isAuthenticated;
+        this.user = state.user;
+        this.errorMessage = state.errorMessage;
+      }
     });
   }
 
-  changeTheme(){
+  changeTheme(): void{
     if (this.theme === 'ligth'){
       this.themeService.setLightTheme();
     } else{
