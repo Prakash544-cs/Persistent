@@ -33,8 +33,8 @@ const Template: Story<ListMusicComponent> = (args: ListMusicComponent) => ({
   props: args,
 });
 
-export const List = Template.bind({});
-List.args = {
+export const Default = Template.bind({});
+Default.args = {
   viewLogin : true,
 };
 

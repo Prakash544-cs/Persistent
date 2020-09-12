@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
   user = null;
   theme = 'ligth';
   errorMessage = null;
+  
   constructor(private store: Store<AppState>, private router: Router, public themeService: ThemeService) {
     this.getState = this.store.select(selectAuthState);
   }

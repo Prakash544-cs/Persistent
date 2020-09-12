@@ -32,9 +32,24 @@ const Template: Story<HeaderComponent> = (args: HeaderComponent) => ({
   props: args,
 });
 
-export const Header = Template.bind({});
-Header.args = {
-  viewLogin : true,
+// export const Header = Template.bind({});
+// Header.args = {
+//   viewLogin : true,
+// };
+
+
+export const Default = Template.bind({});
+Default.args = {
+  quotes: {},
+  isAuthenticated: true
+};
+export const NotAuth = Template.bind({});
+NotAuth.args = {
+  user: {},
+  isAuthenticated: false
 };
 
-
+// export const Large = Template.bind({});
+// Large.parameters = {
+//   backgrounds: { default: 'facebook' }
+// };

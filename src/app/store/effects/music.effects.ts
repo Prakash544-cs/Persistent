@@ -36,12 +36,11 @@ export class MusicEffects {
              mergeMap(payload => {
                  return this.Musicervice.createMusic(payload.song, payload.movie).pipe(
                      map((data) => {
-                         if(data){
+                         if (data){
                             return new AddSuccess(data);
                          }
-                     }))
+                     }));
              }));
-        
              @Effect({dispatch: true})
              UpdateProduct: Observable<any> =  this.actions.pipe(
                   ofType(UPDATE_MUSICS),
@@ -49,7 +48,6 @@ export class MusicEffects {
                   mergeMap(payload => {
                       return this.Musicervice.updateMusic(payload.index,payload.newProduct).pipe(
                          map((data) => {
-                         
                              if (data) {
                                   return new UpdateEditSuccess(data);
                              }

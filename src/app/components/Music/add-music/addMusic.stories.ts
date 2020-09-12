@@ -31,10 +31,10 @@ const Template: Story<AddMusicComponent> = (args: AddMusicComponent) => ({
   props: args,
 });
 
-export const Add = Template.bind({});
-// Add.args = {
-//   viewLogin : true,
-// };
+export const Default = Template.bind({});
+Default.args = {
+  viewLogin : true,
+};
 
 // export const SignUp = Template.bind({});
 // SignUp.args = {

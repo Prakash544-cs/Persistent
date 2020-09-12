@@ -30,9 +30,29 @@ const Template: Story<LogInComponent> = (args: LogInComponent) => ({
   },
   props: args,
 });
+const Template1: Story<LogInComponent> = (args: LogInComponent) => ({
+  component: LogInComponent,
+  template: `<app-log-in></app-log-in>`,
+  styles: ['./app-log-in.component.scss'],
+  moduleMetadata: {
+    imports: [
+      RouterTestingModule.withRoutes([]),
+      FormsModule,
+       HttpClientModule,
+      ReactiveFormsModule,
+    ],
+    declarations: [LogInComponent],
+    providers: [provideMockStore(), AuthService],
+  },
+  props: args,
+});
+export const Default = Template.bind({});
+Default.args = {
+  viewLogin : true,
+};
 
-export const Login = Template.bind({});
-Login.args = {
+export const Logins = Template1.bind({});
+Logins.args = {
   viewLogin : true,
 };
 

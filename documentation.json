@@ -159,12 +159,12 @@
     "injectables": [
         {
             "name": "AuthEffects",
-            "id": "injectable-AuthEffects-2f00a9579fa69dab68e96d565844bfcc",
+            "id": "injectable-AuthEffects-50fc15e5adf8d23026c901e612ec8250",
             "file": "src/app/store/effects/auth.effects.ts",
             "properties": [
                 {
                     "name": "LogIn",
-                    "defaultValue": "this.actions.pipe(\r\nofType(AuthActionTypes.LOGIN)).pipe(\r\n    map((action: LogIn) => action.payload)).pipe(switchMap(payload => {\r\n    return this.authService.logIn(payload.email, payload.password).pipe(\r\n        map((user) => {\r\n        console.log(user);\r\n        return new LogInSuccess({token: user.token, email: payload.email});\r\n      })).pipe(catchError((error) => {\r\n        console.log(error);\r\n        return of(new LogInFailure({ error: error }));\r\n      }));\r\n  }))",
+                    "defaultValue": "this.actions.pipe(\r\nofType(AuthActionTypes.LOGIN)).pipe(\r\n    map((action: LogIn) => action.payload)).pipe(switchMap(payload => {\r\n    return this.authService.logIn(payload.email, payload.password).pipe(\r\n        map((user) => {\r\n        return new LogInSuccess({token: user.token, email: payload.email});\r\n      })).pipe(catchError((error) => {\r\n        return of(new LogInFailure({ error }));\r\n      }));\r\n  }))",
                     "type": "Observable<any>",
                     "optional": false,
                     "description": "",
@@ -182,7 +182,7 @@
                     "type": "Observable<any>",
                     "optional": false,
                     "description": "",
-                    "line": 51,
+                    "line": 49,
                     "decorators": [
                         {
                             "name": "Effect",
@@ -196,7 +196,7 @@
                     "type": "Observable<any>",
                     "optional": false,
                     "description": "",
-                    "line": 42,
+                    "line": 40,
                     "decorators": [
                         {
                             "name": "Effect",
@@ -210,7 +210,7 @@
                     "type": "Observable<any>",
                     "optional": false,
                     "description": "",
-                    "line": 81,
+                    "line": 79,
                     "decorators": [
                         {
                             "name": "Effect",
@@ -227,7 +227,7 @@
                     "type": "Observable<any>",
                     "optional": false,
                     "description": "",
-                    "line": 57,
+                    "line": 55,
                     "decorators": [
                         {
                             "name": "Effect",
@@ -241,7 +241,7 @@
                     "type": "Observable<any>",
                     "optional": false,
                     "description": "",
-                    "line": 72,
+                    "line": 70,
                     "decorators": [
                         {
                             "name": "Effect",
@@ -252,7 +252,7 @@
             ],
             "methods": [],
             "description": "",
-            "sourceCode": "import { Injectable } from '@angular/core';\r\nimport { Router } from '@angular/router';\r\nimport { switchMap, concatMap } from 'rxjs/operators';\r\nimport { createEffect,Effect, Actions, ofType } from '@ngrx/effects';\r\nimport { Observable } from 'rxjs';\r\nimport { tap , map, catchError } from 'rxjs/operators';\r\nimport {  of } from 'rxjs';\r\n\r\nimport { AuthService } from '../../services/auth.service';\r\n\r\nimport {\r\n    AuthActionTypes,\r\n    LogIn, LogInSuccess , LogInFailure, SignUp , SignUpSuccess , SignUpFailure,\r\n     LogOut\r\n  } from '../actions/auth.actions';\r\n\r\n@Injectable()\r\nexport class AuthEffects {\r\n\r\n  constructor(\r\n    private actions: Actions,\r\n    private authService: AuthService,\r\n    private router: Router,\r\n  ) {}\r\n\r\n\r\n@Effect()\r\nLogIn: Observable<any> = this.actions.pipe(\r\nofType(AuthActionTypes.LOGIN)).pipe(\r\n    map((action: LogIn) => action.payload)).pipe(switchMap(payload => {\r\n    return this.authService.logIn(payload.email, payload.password).pipe(\r\n        map((user) => {\r\n        console.log(user);\r\n        return new LogInSuccess({token: user.token, email: payload.email});\r\n      })).pipe(catchError((error) => {\r\n        console.log(error);\r\n        return of(new LogInFailure({ error: error }));\r\n      }));\r\n  }));\r\n\r\n  @Effect({ dispatch: false })\r\n  LogInSuccess: Observable<any> = this.actions.pipe(\r\n  ofType(AuthActionTypes.LOGIN_SUCCESS),\r\n  tap((user) => {\r\n      localStorage.setItem('token', user.payload.token);\r\n      this.router.navigateByUrl('/list-music');\r\n  })\r\n);\r\n\r\n@Effect({ dispatch: false })\r\nLogInFailure: Observable<any> = this.actions.pipe(\r\n  ofType(AuthActionTypes.LOGIN_FAILURE)\r\n); \r\n\r\n\r\n@Effect()\r\nSignUp: Observable<any> = this.actions.pipe(ofType(AuthActionTypes.SIGNUP)).pipe(\r\n  map((action: SignUp) => action.payload)).pipe(\r\n  switchMap(payload => {\r\n    return this.authService.signUp(payload.email, payload.password).pipe(\r\n      map((user) => {\r\n        console.log(user);\r\n        return new SignUpSuccess({token: user.token, email: payload.email});\r\n      })).pipe(catchError((error) => {\r\n        console.log(error);\r\n        return of(new SignUpFailure({ error: error }));\r\n      }));\r\n  }));\r\n\r\n\r\n@Effect({ dispatch: false })\r\nSignUpSuccess: Observable<any> = this.actions.pipe(\r\n  ofType(AuthActionTypes.SIGNUP_SUCCESS),\r\n  tap((user) => {\r\n    localStorage.setItem('token', user.payload.token);\r\n    this.router.navigateByUrl('/');\r\n  })\r\n);\r\n\r\n@Effect({ dispatch: false })\r\npublic LogOut: Observable<any> = this.actions.pipe(\r\n  ofType(AuthActionTypes.LOGOUT),\r\n  tap((user) => {\r\n    localStorage.removeItem('token');\r\n  })\r\n);\r\n};",
+            "sourceCode": "import { Injectable } from '@angular/core';\r\nimport { Router } from '@angular/router';\r\nimport { switchMap, concatMap } from 'rxjs/operators';\r\nimport { createEffect,Effect, Actions, ofType } from '@ngrx/effects';\r\nimport { Observable } from 'rxjs';\r\nimport { tap , map, catchError } from 'rxjs/operators';\r\nimport {  of } from 'rxjs';\r\n\r\nimport { AuthService } from '../../services/auth.service';\r\n\r\nimport {\r\n    AuthActionTypes,\r\n    LogIn, LogInSuccess , LogInFailure, SignUp , SignUpSuccess , SignUpFailure,\r\n     LogOut\r\n  } from '../actions/auth.actions';\r\n\r\n@Injectable()\r\nexport class AuthEffects {\r\n\r\n  constructor(\r\n    private actions: Actions,\r\n    private authService: AuthService,\r\n    private router: Router,\r\n  ) {}\r\n\r\n\r\n@Effect()\r\nLogIn: Observable<any> = this.actions.pipe(\r\nofType(AuthActionTypes.LOGIN)).pipe(\r\n    map((action: LogIn) => action.payload)).pipe(switchMap(payload => {\r\n    return this.authService.logIn(payload.email, payload.password).pipe(\r\n        map((user) => {\r\n        return new LogInSuccess({token: user.token, email: payload.email});\r\n      })).pipe(catchError((error) => {\r\n        return of(new LogInFailure({ error }));\r\n      }));\r\n  }));\r\n\r\n  @Effect({ dispatch: false })\r\n  LogInSuccess: Observable<any> = this.actions.pipe(\r\n  ofType(AuthActionTypes.LOGIN_SUCCESS),\r\n  tap((user) => {\r\n      localStorage.setItem('token', user.payload.token);\r\n      this.router.navigateByUrl('/list-music');\r\n  })\r\n);\r\n\r\n@Effect({ dispatch: false })\r\nLogInFailure: Observable<any> = this.actions.pipe(\r\n  ofType(AuthActionTypes.LOGIN_FAILURE)\r\n); \r\n\r\n\r\n@Effect()\r\nSignUp: Observable<any> = this.actions.pipe(ofType(AuthActionTypes.SIGNUP)).pipe(\r\n  map((action: SignUp) => action.payload)).pipe(\r\n  switchMap(payload => {\r\n    return this.authService.signUp(payload.email, payload.password).pipe(\r\n      map((user) => {\r\n        console.log(user);\r\n        return new SignUpSuccess({token: user.token, email: payload.email});\r\n      })).pipe(catchError((error) => {\r\n        console.log(error);\r\n        return of(new SignUpFailure({ error: error }));\r\n      }));\r\n  }));\r\n\r\n\r\n@Effect({ dispatch: false })\r\nSignUpSuccess: Observable<any> = this.actions.pipe(\r\n  ofType(AuthActionTypes.SIGNUP_SUCCESS),\r\n  tap((user) => {\r\n    localStorage.setItem('token', user.payload.token);\r\n    this.router.navigateByUrl('/');\r\n  })\r\n);\r\n\r\n@Effect({ dispatch: false })\r\npublic LogOut: Observable<any> = this.actions.pipe(\r\n  ofType(AuthActionTypes.LOGOUT),\r\n  tap((user) => {\r\n    localStorage.removeItem('token');\r\n  })\r\n);\r\n};",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -299,18 +299,18 @@
         },
         {
             "name": "AuthService",
-            "id": "injectable-AuthService-4497ec084c1b580fbb1e77c64018d340",
+            "id": "injectable-AuthService-e0da3a4800a53c24a7325707b7a58e1d",
             "file": "src/app/services/auth.service.ts",
             "properties": [
                 {
                     "name": "BASE_URL",
-                    "defaultValue": "'http://localhost:3000'",
-                    "type": "string",
+                    "defaultValue": "environment.apiUrl",
+                    "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 14,
+                    "line": 15,
                     "modifierKind": [
-                        132
+                        114
                     ]
                 },
                 {
@@ -348,7 +348,7 @@
                     "optional": false,
                     "returnType": "Observable<Music>",
                     "typeParameters": [],
-                    "line": 81,
+                    "line": 79,
                     "jsdoctags": [
                         {
                             "name": "song",
@@ -377,7 +377,7 @@
                     "optional": false,
                     "returnType": "Observable<any>",
                     "typeParameters": [],
-                    "line": 89,
+                    "line": 87,
                     "jsdoctags": [
                         {
                             "name": "id",
@@ -399,7 +399,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 105,
+                    "line": 103,
                     "jsdoctags": [
                         {
                             "name": "error",
@@ -416,7 +416,7 @@
                     "optional": false,
                     "returnType": "Observable<Music[]>",
                     "typeParameters": [],
-                    "line": 65
+                    "line": 64
                 },
                 {
                     "name": "getMusicById",
@@ -429,7 +429,7 @@
                     "optional": false,
                     "returnType": "Observable<Music>",
                     "typeParameters": [],
-                    "line": 73,
+                    "line": 72,
                     "jsdoctags": [
                         {
                             "name": "id",
@@ -504,7 +504,7 @@
                     "optional": false,
                     "returnType": "Observable<User>",
                     "typeParameters": [],
-                    "line": 58,
+                    "line": 57,
                     "jsdoctags": [
                         {
                             "name": "email",
@@ -537,7 +537,7 @@
                     "optional": false,
                     "returnType": "Observable<Music>",
                     "typeParameters": [],
-                    "line": 97,
+                    "line": 95,
                     "jsdoctags": [
                         {
                             "name": "id",
@@ -557,7 +557,7 @@
                 }
             ],
             "description": "",
-            "sourceCode": "import { HttpClient, HttpHeaders } from '@angular/common/http';\r\nimport { Injectable } from '@angular/core';\r\nimport { Observable, throwError } from 'rxjs';\r\nimport {catchError} from 'rxjs/operators';\r\n\r\nimport { User } from '../models/user';\r\nimport { Music } from '../models/music';\r\n\r\n\r\n@Injectable({\r\n  providedIn: 'root'\r\n})\r\nexport class AuthService {\r\n   readonly BASE_URL = 'http://localhost:3000';\r\n\r\n  private errMessage: string;\r\n\r\n  get errorMessage(): string {\r\n    return this.errMessage;\r\n  }\r\n  set errorMessage(message: string) {\r\n    this.errMessage = message;\r\n  }\r\n  getToken(): string {\r\n    return localStorage.getItem('token');\r\n  }\r\n\r\n  httpOptions = {\r\n    headers: new HttpHeaders({\r\n      'Content-Type': 'application/json'\r\n    })\r\n  }\r\n  constructor(private http: HttpClient) {\r\n    this.errorMessage = '';\r\n   }\r\n\r\n  //  logIn(user: User): Observable<User[]>{\r\n  //   const loginUrl = encodeURI('login?email=' + user.email + '&password=' + user.password);\r\n  //   return this.http.get<User[]>(this.BASE_URL + loginUrl);\r\n  // }\r\n\r\n  logIn(email: string, password: string): Observable<any> {\r\n    const url = `${this.BASE_URL}/login`;\r\n    return this.http.post<User>(url, {email, password}, this.httpOptions)\r\n    .pipe(\r\n      catchError(this.errorHandler)\r\n    )\r\n  }\r\n\r\n  getSignUpData(): Observable<Music[]> {\r\n    const url = `${this.BASE_URL}/register`; \r\n  return this.http.get<Music[]>(url, this.httpOptions)\r\n        .pipe(\r\n  catchError(this.errorHandler)\r\n        )\r\n    }\r\n  \r\n  signUp(email: string, password: string): Observable<User> {\r\n    const url = `${this.BASE_URL}/register`; \r\n    return this.http.post<User>(url, {email, password}, this.httpOptions)\r\n    .pipe(\r\n      catchError(this.errorHandler)\r\n    )\r\n  }\r\n  getAllMusics(): Observable<Music[]> {\r\n    const url = `${this.BASE_URL}/musics`;\r\n    return this.http.get<Music[]>(url, this.httpOptions )\r\n    .pipe(\r\n      catchError(this.errorHandler)\r\n    )\r\n  }\r\n\r\n  getMusicById(id: number): Observable<Music> {\r\n    const url = `${this.BASE_URL}/musics/`;\r\n    return this.http.get<Music>(url + id, this.httpOptions)\r\n    .pipe(\r\n      catchError(this.errorHandler)\r\n    )\r\n  }\r\n  \r\n  createMusic(song: string, movie: string): Observable<Music> {\r\n    const url = `${this.BASE_URL}/musics`;\r\n    return this.http.post<Music>(url,{song, movie}, this.httpOptions )\r\n    .pipe(\r\n      catchError(this.errorHandler)\r\n    )\r\n  }\r\n\r\n  deleteMusic(id): Observable<any> {\r\n    const url = `${this.BASE_URL}/musics`;\r\n    return this.http.delete(`${this.BASE_URL}/`+'musics/' + id, this.httpOptions)\r\n    .pipe(\r\n      catchError(this.errorHandler)\r\n    )\r\n  }\r\n\r\n  updateMusic(id, user ): Observable<Music> {\r\n    const url = `${this.BASE_URL}/musics/`;\r\n    return this.http.put<Music>(url + id, user, this.httpOptions)\r\n    .pipe(\r\n      catchError(this.errorHandler)\r\n    )\r\n  }\r\n\r\n  errorHandler(error) {\r\n    let errorMessage = '';\r\n    if(error.error instanceof ErrorEvent) {\r\n   // Get client-side error\r\n      errorMessage = error.error.message;\r\n    } else {\r\n      // Get server-side error\r\n      errorMessage = `Error Code: ${error.status}\\nMessage: ${error.message}`;\r\n    }\r\n    console.log(errorMessage);\r\n    return throwError(errorMessage);\r\n }\r\n\r\n}",
+            "sourceCode": "import { HttpClient, HttpHeaders } from '@angular/common/http';\r\nimport { Injectable } from '@angular/core';\r\nimport { Observable, throwError } from 'rxjs';\r\nimport {catchError} from 'rxjs/operators';\r\n\r\nimport { User } from '../models/user';\r\nimport { Music } from '../models/music';\r\nimport { environment } from '../../environments/environment';\r\n\r\n@Injectable({\r\n  providedIn: 'root'\r\n})\r\nexport class AuthService {\r\n\r\npublic BASE_URL = environment.apiUrl;\r\n  private errMessage: string;\r\n\r\n  get errorMessage(): string {\r\n    return this.errMessage;\r\n  }\r\n  set errorMessage(message: string) {\r\n    this.errMessage = message;\r\n  }\r\n  getToken(): string {\r\n    return localStorage.getItem('token');\r\n  }\r\n\r\n  httpOptions = {\r\n    headers: new HttpHeaders({\r\n      'Content-Type': 'application/json'\r\n    })\r\n  };\r\n  constructor(private http: HttpClient) {\r\n    this.errorMessage = '';\r\n   }\r\n\r\n  //  logIn(user: User): Observable<User[]>{\r\n  //   const loginUrl = encodeURI('login?email=' + user.email + '&password=' + user.password);\r\n  //   return this.http.get<User[]>(this.BASE_URL + loginUrl);\r\n  // }\r\n\r\n  logIn(email: string, password: string): Observable<any> {\r\n    const url = `${this.BASE_URL}/login`;\r\n    return this.http.post<User>(url, {email, password}, this.httpOptions)\r\n    .pipe(\r\n      catchError(this.errorHandler)\r\n    )\r\n  }\r\n\r\n  getSignUpData(): Observable<Music[]> {\r\n    const url = `${this.BASE_URL}/register`;\r\n  return this.http.get<Music[]>(url, this.httpOptions)\r\n        .pipe(\r\n               catchError(this.errorHandler)\r\n        )\r\n    }\r\n  signUp(email: string, password: string): Observable<User> {\r\n    const url = `${this.BASE_URL}/register`;\r\n    return this.http.post<User>(url, {email, password}, this.httpOptions)\r\n    .pipe(\r\n      catchError(this.errorHandler)\r\n    );\r\n  }\r\n  getAllMusics(): Observable<Music[]> {\r\n    const url = `${this.BASE_URL}/musics`;\r\n    return this.http.get<Music[]>(url, this.httpOptions )\r\n    .pipe(\r\n      catchError(this.errorHandler)\r\n    );\r\n  }\r\n\r\n  getMusicById(id: number): Observable<Music> {\r\n    const url = `${this.BASE_URL}/musics/`;\r\n    return this.http.get<Music>(url + id, this.httpOptions)\r\n    .pipe(\r\n      catchError(this.errorHandler)\r\n    );\r\n  }\r\n  createMusic(song: string, movie: string): Observable<Music> {\r\n    const url = `${this.BASE_URL}/musics`;\r\n    return this.http.post<Music>(url, {song, movie}, this.httpOptions )\r\n    .pipe(\r\n      catchError(this.errorHandler)\r\n    );\r\n  }\r\n\r\n  deleteMusic(id): Observable<any> {\r\n    const url = `${this.BASE_URL}/musics`;\r\n    return this.http.delete(`${this.BASE_URL}/` + 'musics/' + id, this.httpOptions)\r\n    .pipe(\r\n      catchError(this.errorHandler)\r\n    );\r\n  }\r\n\r\n  updateMusic(id, user ): Observable<Music> {\r\n    const url = `${this.BASE_URL}/musics/`;\r\n    return this.http.put<Music>(url + id, user, this.httpOptions)\r\n    .pipe(\r\n      catchError(this.errorHandler)\r\n    );\r\n  }\r\n\r\n  errorHandler(error) {\r\n    let errorMessage = '';\r\n    if (error.error instanceof ErrorEvent) {\r\n   // Get client-side error\r\n      errorMessage = error.error.message;\r\n    } else {\r\n      // Get server-side error\r\n      errorMessage = `Error Code: ${error.status}\\nMessage: ${error.message}`;\r\n    }\r\n    console.log(errorMessage);\r\n    return throwError(errorMessage);\r\n }\r\n}",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -614,12 +614,12 @@
         },
         {
             "name": "MusicEffects",
-            "id": "injectable-MusicEffects-992b80fa09921130b21119fbc703c493",
+            "id": "injectable-MusicEffects-e98dbac7018b744bee0d680fbffe793e",
             "file": "src/app/store/effects/music.effects.ts",
             "properties": [
                 {
                     "name": "createMusics",
-                    "defaultValue": "this.actions.pipe(\r\n             ofType(ADD_MUSICS),\r\n             map((action: AddMusics) => action.payload),\r\n             mergeMap(payload => {\r\n                 return this.Musicervice.createMusic(payload.song, payload.movie).pipe(\r\n                     map((data) => {\r\n                         if(data){\r\n                            return new AddSuccess(data);\r\n                         }\r\n                     }))\r\n             }))",
+                    "defaultValue": "this.actions.pipe(\r\n             ofType(ADD_MUSICS),\r\n             map((action: AddMusics) => action.payload),\r\n             mergeMap(payload => {\r\n                 return this.Musicervice.createMusic(payload.song, payload.movie).pipe(\r\n                     map((data) => {\r\n                         if (data){\r\n                            return new AddSuccess(data);\r\n                         }\r\n                     }));\r\n             }))",
                     "type": "Observable<any>",
                     "optional": false,
                     "description": "",
@@ -637,7 +637,7 @@
                     "type": "Observable<any>",
                     "optional": false,
                     "description": "",
-                    "line": 60,
+                    "line": 58,
                     "decorators": [
                         {
                             "name": "Effect",
@@ -661,11 +661,11 @@
                 },
                 {
                     "name": "UpdateProduct",
-                    "defaultValue": "this.actions.pipe(\r\n                  ofType(UPDATE_MUSICS),\r\n                  map((action: UpdateMusics) => action.payload),\r\n                  mergeMap(payload => {\r\n                      return this.Musicervice.updateMusic(payload.index,payload.newProduct).pipe(\r\n                         map((data) => {\r\n                         \r\n                             if (data) {\r\n                                  return new UpdateEditSuccess(data);\r\n                             }\r\n                          }));\r\n                  }))",
+                    "defaultValue": "this.actions.pipe(\r\n                  ofType(UPDATE_MUSICS),\r\n                  map((action: UpdateMusics) => action.payload),\r\n                  mergeMap(payload => {\r\n                      return this.Musicervice.updateMusic(payload.index,payload.newProduct).pipe(\r\n                         map((data) => {\r\n                             if (data) {\r\n                                  return new UpdateEditSuccess(data);\r\n                             }\r\n                          }));\r\n                  }))",
                     "type": "Observable<any>",
                     "optional": false,
                     "description": "",
-                    "line": 46,
+                    "line": 45,
                     "decorators": [
                         {
                             "name": "Effect",
@@ -676,7 +676,7 @@
             ],
             "methods": [],
             "description": "",
-            "sourceCode": "import { Injectable } from '@angular/core';\r\nimport { Actions, Effect, ofType } from '@ngrx/effects';\r\nimport { Store } from '@ngrx/store';\r\nimport { HttpClient } from '@angular/common/http';\r\nimport { switchMap, map,  mergeMap } from 'rxjs/operators';\r\n\r\nimport { ListDataSucess, LIST_MUSICS, ListMusics,DELETE_MUSICS,DeleteMusicSuccess, DeleteMusics,ADD_MUSICS,UPDATE_MUSICS,UpdateMusics,UpdateEditSuccess, AddMusics , AddSuccess } from '../actions/music.actions';\r\nimport { Observable } from 'rxjs';\r\nimport { Router } from '@angular/router';\r\nimport {AuthService} from '../../services/auth.service';\r\n\r\n\r\n@Injectable()\r\nexport class MusicEffects {\r\n\r\n    constructor(\r\n        private actions: Actions,\r\n        private Musicervice: AuthService,\r\n        private router: Router,\r\n      ) {}\r\n\r\n\r\n      @Effect({dispatch: true})\r\n      ListMusics: Observable<any> =  this.actions.pipe(\r\n                ofType(LIST_MUSICS),\r\n                map((action: ListMusics) => action),\r\n                mergeMap(payload => {\r\n                    return this.Musicervice.getAllMusics().pipe(\r\n                        map((data) => new ListDataSucess(data)));\r\n         }));\r\n\r\n         @Effect({dispatch: true})\r\n         createMusics: Observable<any> = this.actions.pipe(\r\n             ofType(ADD_MUSICS),\r\n             map((action: AddMusics) => action.payload),\r\n             mergeMap(payload => {\r\n                 return this.Musicervice.createMusic(payload.song, payload.movie).pipe(\r\n                     map((data) => {\r\n                         if(data){\r\n                            return new AddSuccess(data);\r\n                         }\r\n                     }))\r\n             }));\r\n        \r\n             @Effect({dispatch: true})\r\n             UpdateProduct: Observable<any> =  this.actions.pipe(\r\n                  ofType(UPDATE_MUSICS),\r\n                  map((action: UpdateMusics) => action.payload),\r\n                  mergeMap(payload => {\r\n                      return this.Musicervice.updateMusic(payload.index,payload.newProduct).pipe(\r\n                         map((data) => {\r\n                         \r\n                             if (data) {\r\n                                  return new UpdateEditSuccess(data);\r\n                             }\r\n                          }));\r\n                  }));\r\n\r\n                  @Effect({dispatch: true})\r\n                        DeleteProduct: Observable<any> =  this.actions.pipe(\r\n                                ofType(DELETE_MUSICS),\r\n                                map((action: DeleteMusics) => action.payload),\r\n                                mergeMap(payload => {\r\n                                    return this.Musicervice.deleteMusic(payload).pipe(\r\n                                        map((data) => {\r\n                                          \r\n                                            if (data) {\r\n                                               \r\n                                                return new DeleteMusicSuccess();\r\n\r\n                                            }\r\n                                        }));\r\n                                }));     \r\n\r\n}\r\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\r\nimport { Actions, Effect, ofType } from '@ngrx/effects';\r\nimport { Store } from '@ngrx/store';\r\nimport { HttpClient } from '@angular/common/http';\r\nimport { switchMap, map,  mergeMap } from 'rxjs/operators';\r\n\r\nimport { ListDataSucess, LIST_MUSICS, ListMusics,DELETE_MUSICS,DeleteMusicSuccess, DeleteMusics,ADD_MUSICS,UPDATE_MUSICS,UpdateMusics,UpdateEditSuccess, AddMusics , AddSuccess } from '../actions/music.actions';\r\nimport { Observable } from 'rxjs';\r\nimport { Router } from '@angular/router';\r\nimport {AuthService} from '../../services/auth.service';\r\n\r\n\r\n@Injectable()\r\nexport class MusicEffects {\r\n\r\n    constructor(\r\n        private actions: Actions,\r\n        private Musicervice: AuthService,\r\n        private router: Router,\r\n      ) {}\r\n\r\n\r\n      @Effect({dispatch: true})\r\n      ListMusics: Observable<any> =  this.actions.pipe(\r\n                ofType(LIST_MUSICS),\r\n                map((action: ListMusics) => action),\r\n                mergeMap(payload => {\r\n                    return this.Musicervice.getAllMusics().pipe(\r\n                        map((data) => new ListDataSucess(data)));\r\n         }));\r\n\r\n         @Effect({dispatch: true})\r\n         createMusics: Observable<any> = this.actions.pipe(\r\n             ofType(ADD_MUSICS),\r\n             map((action: AddMusics) => action.payload),\r\n             mergeMap(payload => {\r\n                 return this.Musicervice.createMusic(payload.song, payload.movie).pipe(\r\n                     map((data) => {\r\n                         if (data){\r\n                            return new AddSuccess(data);\r\n                         }\r\n                     }));\r\n             }));\r\n             @Effect({dispatch: true})\r\n             UpdateProduct: Observable<any> =  this.actions.pipe(\r\n                  ofType(UPDATE_MUSICS),\r\n                  map((action: UpdateMusics) => action.payload),\r\n                  mergeMap(payload => {\r\n                      return this.Musicervice.updateMusic(payload.index,payload.newProduct).pipe(\r\n                         map((data) => {\r\n                             if (data) {\r\n                                  return new UpdateEditSuccess(data);\r\n                             }\r\n                          }));\r\n                  }));\r\n\r\n                  @Effect({dispatch: true})\r\n                        DeleteProduct: Observable<any> =  this.actions.pipe(\r\n                                ofType(DELETE_MUSICS),\r\n                                map((action: DeleteMusics) => action.payload),\r\n                                mergeMap(payload => {\r\n                                    return this.Musicervice.deleteMusic(payload).pipe(\r\n                                        map((data) => {\r\n                                          \r\n                                            if (data) {\r\n                                               \r\n                                                return new DeleteMusicSuccess();\r\n\r\n                                            }\r\n                                        }));\r\n                                }));     \r\n\r\n}\r\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -2052,7 +2052,7 @@
         },
         {
             "name": "HeaderComponent",
-            "id": "component-HeaderComponent-3149104a5017515961c638d9c14c1f40",
+            "id": "component-HeaderComponent-2283a683d1b59f1d6a30a32d065e0d64",
             "file": "src/app/header/header.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2113,7 +2113,7 @@
                     "type": "ThemeService",
                     "optional": false,
                     "description": "",
-                    "line": 25,
+                    "line": 26,
                     "modifierKind": [
                         114
                     ]
@@ -2134,7 +2134,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 39
+                    "line": 40
                 },
                 {
                     "name": "logOut",
@@ -2142,7 +2142,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 47,
+                    "line": 48,
                     "modifierKind": [
                         114
                     ]
@@ -2153,7 +2153,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 29
+                    "line": 30
                 }
             ],
             "hostBindings": [],
@@ -2161,7 +2161,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\nimport { Router } from '@angular/router';\r\nimport { Store } from '@ngrx/store';\r\nimport { Observable } from 'rxjs';\r\n\r\nimport { Music } from '../models/music';\r\nimport { ThemeService } from '../services/theme-color.service';\r\nimport { LogOut } from '../store/actions/auth.actions';\r\nimport { AppState , selectAuthState } from '../store/app.states';\r\n\r\n\r\n@Component({\r\n  selector: 'app-header',\r\n  templateUrl: './header.component.html',\r\n  styleUrls: ['./header.component.scss']\r\n})\r\nexport class HeaderComponent implements OnInit {\r\n\r\n  getState: Observable<any>;\r\n  isAuthenticated: false;\r\n  quotes: Music[];\r\n  user = null;\r\n  theme = 'ligth';\r\n  errorMessage = null;\r\n  constructor(private store: Store<AppState>, private router: Router, public themeService: ThemeService) {\r\n    this.getState = this.store.select(selectAuthState);\r\n  }\r\n\r\n  ngOnInit(): void {\r\n    this.getState.subscribe((state) => {\r\n      if(state){\r\n        this.isAuthenticated = state.isAuthenticated;\r\n        this.user = state.user;\r\n        this.errorMessage = state.errorMessage;\r\n      }\r\n    });\r\n  }\r\n\r\n  changeTheme(){\r\n    if (this.theme === 'ligth'){\r\n      this.themeService.setLightTheme();\r\n    } else{\r\n      this.themeService.setDarkTheme();\r\n    }\r\n  }\r\n\r\n  public logOut(): void {\r\n    this.store.dispatch(new LogOut());\r\n    this.router.navigateByUrl('/');\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\nimport { Router } from '@angular/router';\r\nimport { Store } from '@ngrx/store';\r\nimport { Observable } from 'rxjs';\r\n\r\nimport { Music } from '../models/music';\r\nimport { ThemeService } from '../services/theme-color.service';\r\nimport { LogOut } from '../store/actions/auth.actions';\r\nimport { AppState , selectAuthState } from '../store/app.states';\r\n\r\n\r\n@Component({\r\n  selector: 'app-header',\r\n  templateUrl: './header.component.html',\r\n  styleUrls: ['./header.component.scss']\r\n})\r\nexport class HeaderComponent implements OnInit {\r\n\r\n  getState: Observable<any>;\r\n  isAuthenticated: false;\r\n  quotes: Music[];\r\n  user = null;\r\n  theme = 'ligth';\r\n  errorMessage = null;\r\n  \r\n  constructor(private store: Store<AppState>, private router: Router, public themeService: ThemeService) {\r\n    this.getState = this.store.select(selectAuthState);\r\n  }\r\n\r\n  ngOnInit(): void {\r\n    this.getState.subscribe((state) => {\r\n      if (state){\r\n        this.isAuthenticated = state.isAuthenticated;\r\n        this.user = state.user;\r\n        this.errorMessage = state.errorMessage;\r\n      }\r\n    });\r\n  }\r\n\r\n  changeTheme(): void{\r\n    if (this.theme === 'ligth'){\r\n      this.themeService.setLightTheme();\r\n    } else{\r\n      this.themeService.setDarkTheme();\r\n    }\r\n  }\r\n\r\n  public logOut(): void {\r\n    this.store.dispatch(new LogOut());\r\n    this.router.navigateByUrl('/');\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -2219,7 +2219,7 @@
         },
         {
             "name": "LandingComponent",
-            "id": "component-LandingComponent-534a794c96f2018a79333302d1caa5cd",
+            "id": "component-LandingComponent-6216f7947b83e6fb682cfaf09f868b2f",
             "file": "src/app/components/landing/landing.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2299,11 +2299,11 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\nimport { Store } from '@ngrx/store';\r\nimport { Observable, from } from 'rxjs';\r\nimport { AuthService } from '../../services/auth.service';\r\n\r\nimport { Music } from '../../models/music'\r\n\r\nimport { AppState, selectAuthState } from '../../store/app.states';\r\nimport { LogOut } from '../../store/actions/auth.actions';\r\n\r\n@Component({\r\n  selector: 'app-landing',\r\n  templateUrl: './landing.component.html',\r\n  styleUrls: ['./landing.component.scss']\r\n})\r\nexport class LandingComponent implements OnInit {\r\n\r\n  getState: Observable<any>;\r\n  isAuthenticated: false;\r\n  user = null;\r\n  errorMessage = null;\r\n\r\n  musics: Music[];\r\n\r\n  constructor(\r\n    private store: Store<AppState>, private apiService: AuthService\r\n  ) {this.getState = this.store.select(selectAuthState);\r\n  }\r\n\r\n  ngOnInit() {\r\n    this.getState.subscribe((state) => {\r\n      if(state){\r\n        this.isAuthenticated = state.isAuthenticated;\r\n        this.user = state.user;\r\n        this.errorMessage = state.errorMessage;\r\n      }\r\n    });\r\n\r\n    this.apiService.getAllMusics()\r\n      .subscribe(data => {\r\n        this.musics = data\r\n      })\r\n  }\r\n\r\n  logOut(): void {\r\n    this.store.dispatch(new LogOut);\r\n  }\r\n\r\n}\r\n\r\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\nimport { Store } from '@ngrx/store';\r\nimport { Observable, from } from 'rxjs';\r\nimport { AuthService } from '../../services/auth.service';\r\n\r\nimport { Music } from '../../models/music';\r\n\r\nimport { AppState, selectAuthState } from '../../store/app.states';\r\nimport { LogOut } from '../../store/actions/auth.actions';\r\n\r\n@Component({\r\n  selector: 'app-landing',\r\n  templateUrl: './landing.component.html',\r\n  styleUrls: ['./landing.component.scss']\r\n})\r\nexport class LandingComponent implements OnInit {\r\n\r\n  getState: Observable<any>;\r\n  isAuthenticated: false;\r\n  user = null;\r\n  errorMessage = null;\r\n\r\n  musics: Music[];\r\n\r\n  constructor(\r\n    private store: Store<AppState>, private apiService: AuthService\r\n  ) {this.getState = this.store.select(selectAuthState);\r\n  }\r\n\r\n  ngOnInit(): void {\r\n    this.getState.subscribe((state) => {\r\n      if (state){\r\n        this.isAuthenticated = state.isAuthenticated;\r\n        this.user = state.user;\r\n        this.errorMessage = state.errorMessage;\r\n      }\r\n    });\r\n\r\n    this.apiService.getAllMusics()\r\n      .subscribe(data => {\r\n        this.musics = data;\r\n      });\r\n  }\r\n\r\n  logOut(): void {\r\n    this.store.dispatch(new LogOut());\r\n  }\r\n\r\n}\r\n\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ".grid-container {\r\n    display: grid;\r\n    grid-template-columns: auto;\r\n    // background-color:black;\r\n    padding: 10px;\r\n    width: 800px;\r\n  }\r\n  .grid-item {\r\n    background-color: rgba(255, 255, 255, 0.8);\r\n    border: 1px solid black;\r\n    padding: 10px;\r\n    font-size: 15px; \r\n    color: black;\r\n  }\r\n  .buttons{\r\n    float: right;\r\n  }\r\n  .texts{\r\n    text-align: left;\r\n    font-size:20px;\r\n  }\r\n\r\n \r\n  \r\n",
+                    "data": ".grid-container {\r\n    display: grid;\r\n    grid-template-columns: auto;\r\n    // background-color:black;\r\n    padding: 10px;\r\n    width: 800px;\r\n  }\r\n  .grid-item {\r\n    background-color: rgba(255, 255, 255, 0.8);\r\n    border: 1px solid black;\r\n    padding: 10px;\r\n    font-size: 15px; \r\n    color: black;\r\n  }\r\n  .buttons{\r\n    float: right;\r\n  }\r\n  .texts{\r\n    text-align: left;\r\n    font-size:20px;\r\n  }\r\n\r\n  \r\n",
                     "styleUrl": "./landing.component.scss"
                 }
             ],
@@ -2346,7 +2346,7 @@
         },
         {
             "name": "ListMusicComponent",
-            "id": "component-ListMusicComponent-8ae747340c9a35cf395d9a4b8132dd5b",
+            "id": "component-ListMusicComponent-c482b8c13a171d39c828c1da8d55a86d",
             "file": "src/app/components/Music/list-music/list-music.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2445,7 +2445,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\nimport { AuthService } from '../../../services/auth.service';\r\nimport { AppState, selectMusicState } from '../../../store/app.states';\r\nimport {Store} from '@ngrx/store';\r\nimport { ListMusics } from '../../../store/actions/music.actions';\r\nimport { Observable } from 'rxjs';\r\n\r\n@Component({\r\n  selector: 'app-list-music',\r\n     templateUrl: './list-music.component.html',\r\n    styleUrls: ['./list-music.component.scss']\r\n})\r\nexport class ListMusicComponent implements OnInit {\r\n\r\n  public musics:any\r\n  isUpdateActivated = false;\r\n  \r\n  getState: Observable<any>;\r\n  errorMessage: string | null;\r\n  constructor(public musicService: AuthService,private store: Store<AppState>) { \r\n    this.getState = this.store.select(selectMusicState);\r\n  }\r\n  ngOnInit(): void {\r\n  \r\n    this.store.dispatch(new ListMusics());\r\n    this.store.subscribe(data => {\r\n      this.musics = data.music.musics;\r\n    });\r\n\r\n  }\r\n\r\n  deleteMusic(id){\r\n    this.musicService.deleteMusic(id).subscribe(res => {\r\n         this.musics = this.musics.filter(item => item.id !== id);\r\n    })\r\n   }\r\n \r\n\r\n}\r\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\nimport { AuthService } from '../../../services/auth.service';\r\nimport { AppState, selectMusicState } from '../../../store/app.states';\r\nimport {Store} from '@ngrx/store';\r\nimport { ListMusics } from '../../../store/actions/music.actions';\r\nimport { Observable } from 'rxjs';\r\n\r\n@Component({\r\n  selector: 'app-list-music',\r\n     templateUrl: './list-music.component.html',\r\n    styleUrls: ['./list-music.component.scss']\r\n})\r\nexport class ListMusicComponent implements OnInit {\r\n\r\n  public musics:any\r\n  isUpdateActivated = false;\r\n  \r\n  getState: Observable<any>;\r\n  errorMessage: string | null;\r\n  constructor(public musicService: AuthService,private store: Store<AppState>) { \r\n    this.getState = this.store.select(selectMusicState);\r\n  }\r\n  ngOnInit(): void {\r\n  \r\n    this.store.dispatch(new ListMusics());\r\n    this.store.subscribe(data => {\r\n        this.musics = data.music.musics;\r\n    });\r\n\r\n  }\r\n\r\n  deleteMusic(id){\r\n    this.musicService.deleteMusic(id).subscribe(res => {\r\n         this.musics = this.musics.filter(item => item.id !== id);\r\n    })\r\n   }\r\n \r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -2492,7 +2492,7 @@
         },
         {
             "name": "LogInComponent",
-            "id": "component-LogInComponent-d07d7a2ea6ee9cd1626d1d3865759f62",
+            "id": "component-LogInComponent-e1ed1a91b461499b53c1b894b6ad3f6c",
             "file": "src/app/components/log-in/log-in.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2556,7 +2556,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 27
+                    "line": 28
                 },
                 {
                     "name": "onSubmit",
@@ -2572,7 +2572,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\nimport { Store } from '@ngrx/store';\r\nimport { Observable } from 'rxjs';\r\n\r\nimport { User } from '../../models/user';\r\nimport { AuthService } from '../../services/auth.service';\r\nimport { AppState , selectAuthState } from '../../store/app.states';\r\nimport { LogIn } from '../../store/actions/auth.actions';;\r\n\r\n@Component({\r\n  selector: 'app-log-in',\r\n  templateUrl: './log-in.component.html',\r\n  styleUrls: ['./log-in.component.scss']\r\n})\r\nexport class LogInComponent implements OnInit {\r\n\r\n  user: User = new User();\r\n  getState: Observable<any>;\r\n  errorMessage: string | null;\r\n  allSignupData: any;\r\n  incorrectError = false;\r\n\r\n  constructor(private store: Store<AppState>,private authService: AuthService ) { \r\n    this.getState = this.store.select(selectAuthState);\r\n  }\r\n\r\n  ngOnInit() {\r\n    this.getState.subscribe((state) => {\r\n      if(state){\r\n        this.errorMessage = state.errorMessage;\r\n      }\r\n     \r\n    });\r\n  };\r\n\r\n  onSubmit(): void {\r\n    this.authService.getSignUpData().subscribe((response) => {\r\n      this.allSignupData = response;\r\n      const even = (item: any) => this.user.email === item.email && this.user.password === item.password;\r\n      if (this.allSignupData.some(even) === true) {\r\n        const payload = {\r\n          email: this.user.email,\r\n          password: this.user.password\r\n        };\r\n        this.store.dispatch(new LogIn(payload));\r\n      } else {\r\n        this.incorrectError = true;\r\n        setTimeout(() => {\r\n          this.incorrectError = false;\r\n        }, 3000);\r\n      }\r\n    });\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\nimport { Store } from '@ngrx/store';\r\nimport { Observable } from 'rxjs';\r\n\r\nimport { User } from '../../models/user';\r\nimport { AuthService } from '../../services/auth.service';\r\nimport { AppState , selectAuthState } from '../../store/app.states';\r\nimport { LogIn } from '../../store/actions/auth.actions';\r\n\r\n@Component({\r\n  selector: 'app-log-in',\r\n  templateUrl: './log-in.component.html',\r\n  styleUrls: ['./log-in.component.scss']\r\n})\r\nexport class LogInComponent implements OnInit {\r\n\r\n  user: User = new User();\r\n  getState: Observable<any>;\r\n  errorMessage: string | null;\r\n  allSignupData: any;\r\n  incorrectError = false;\r\n\r\n  constructor(private store: Store<AppState>, private authService: AuthService ) {\r\n\r\n    this.getState = this.store.select(selectAuthState);\r\n  }\r\n\r\n  ngOnInit(): void  {\r\n    this.getState.subscribe((state) => {\r\n      if (state){\r\n        this.errorMessage = state.errorMessage;\r\n      }\r\n    });\r\n  }\r\n\r\n  onSubmit(): void {\r\n    this.authService.getSignUpData().subscribe((response) => {\r\n      this.allSignupData = response;\r\n      const even = (item: any) => this.user.email === item.email && this.user.password === item.password;\r\n      if (this.allSignupData.some(even) === true) {\r\n        const payload = {\r\n          email: this.user.email,\r\n          password: this.user.password\r\n        };\r\n        this.store.dispatch(new LogIn(payload));\r\n      } else {\r\n        this.incorrectError = true;\r\n        setTimeout(() => {\r\n          this.incorrectError = false;\r\n        }, 3000);\r\n      }\r\n    });\r\n  }\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -2619,7 +2619,7 @@
         },
         {
             "name": "SignUpComponent",
-            "id": "component-SignUpComponent-2b4ae24cd3596fc9d49972a57d85e63b",
+            "id": "component-SignUpComponent-aba7d8af2a42124818b50224c577bf53",
             "file": "src/app/components/sign-up/sign-up.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2684,7 +2684,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { Store } from '@ngrx/store';\nimport { Observable } from 'rxjs';\nimport { User } from '../../models/user';\nimport { AppState, selectAuthState } from '../../store/app.states';\nimport { SignUp } from '../../store/actions/auth.actions';\n\n@Component({\n  selector: 'app-sign-up',\n  templateUrl: './sign-up.component.html',\n  styleUrls: ['./sign-up.component.scss']\n})\nexport class SignUpComponent implements OnInit {\n\n  user: User = new User();\n  getState: Observable<any>;\n  errorMessage: string | null;\n\n  constructor(\n    private store: Store<AppState>\n  ) {\n     this.getState = this.store.select(selectAuthState);\n    }\n\n  ngOnInit() {\n    this.getState.subscribe((state) => {\n      if(state){\n        this.errorMessage = state.errorMessage;\n      }\n    });\n  }\n  onSubmit(): void {\n    const payload = {\n      email: this.user.email,\n      password: this.user.password\n    };\n    this.store.dispatch(new SignUp(payload));\n    \n  }\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { Store } from '@ngrx/store';\nimport { Observable } from 'rxjs';\nimport { User } from '../../models/user';\nimport { AppState, selectAuthState } from '../../store/app.states';\nimport { SignUp } from '../../store/actions/auth.actions';\n\n@Component({\n  selector: 'app-sign-up',\n  templateUrl: './sign-up.component.html',\n  styleUrls: ['./sign-up.component.scss']\n})\nexport class SignUpComponent implements OnInit {\n\n  user: User = new User();\n  getState: Observable<any>;\n  errorMessage: string | null;\n\n  constructor(\n    private store: Store<AppState>\n  ) {\n     this.getState = this.store.select(selectAuthState);\n    }\n\n  ngOnInit(): void {\n    this.getState.subscribe((state) => {\n      if (state) {\n        this.errorMessage = state.errorMessage;\n      }\n    });\n  }\n  onSubmit(): void {\n    const payload = {\n      email: this.user.email,\n      password: this.user.password\n    };\n    this.store.dispatch(new SignUp(payload));\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -2786,14 +2786,6 @@
     "miscellaneous": {
         "variables": [
             {
-                "name": "Add",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/Music/add-music/addMusic.stories.ts",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
                 "name": "ADD_DATA_SUCCESS",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -2810,12 +2802,76 @@
                 "defaultValue": "'[Musics] Add Music'"
             },
             {
+                "name": "App",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/app.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
                 "name": "dark",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/app/theme-color.ts",
                 "type": "Theme",
                 "defaultValue": "{\r\n    name: 'dark',\r\n    properties: {\r\n      '--background-default': '#797C80',\r\n      '--primary-default': '#ffffff',\r\n      '--popup-default': '#000000',\r\n    }\r\n  }"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/header/header.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/landing/landing.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/sign-up/signup.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/log-in/login.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/Music/list-music/listMusic.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/Music/add-music/addMusic.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/Music/edit-music/editMusic.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
             },
             {
                 "name": "DELETE_MUSIC_SUCCESS",
@@ -2834,22 +2890,6 @@
                 "defaultValue": "'[Musics] Delete Recipe'"
             },
             {
-                "name": "Edit",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/Music/edit-music/editMusic.stories.ts",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
-                "name": "Edit",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/Music/list-music/listMusic.stories.ts",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
                 "name": "environment",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -2863,15 +2903,7 @@
                 "subtype": "variable",
                 "file": "src/environments/environment.ts",
                 "type": "object",
-                "defaultValue": "{\n  production: false\n}"
-            },
-            {
-                "name": "Header",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/header/header.stories.ts",
-                "type": "",
-                "defaultValue": "Template.bind({})"
+                "defaultValue": "{\n  apiUrl: 'http://localhost:3000',\n  production: false,\n}"
             },
             {
                 "name": "initialState",
@@ -2898,14 +2930,6 @@
                 "defaultValue": "{\r\n    name: 'light',\r\n    properties: {\r\n      '--background-default': '#F4FAFF',\r\n      '--primary-default': '#000000',\r\n      '--popup-default': '#000000',\r\n    }\r\n  }"
             },
             {
-                "name": "List",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/landing/landing.stories.ts",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
                 "name": "LIST_DATA_SUCCESS",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -2922,10 +2946,18 @@
                 "defaultValue": "'[Musics] List Fetch'"
             },
             {
-                "name": "Login",
+                "name": "Logins",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/app/components/log-in/login.stories.ts",
+                "type": "",
+                "defaultValue": "Template1.bind({})"
+            },
+            {
+                "name": "NotAuth",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/header/header.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -2954,12 +2986,12 @@
                 "defaultValue": "createFeatureSelector<AppState>('music')"
             },
             {
-                "name": "SingUp",
+                "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/sign-up/signup.stories.ts",
-                "type": "",
-                "defaultValue": "Template.bind({})"
+                "file": "src/app/app.stories.ts",
+                "type": "Story<AppComponent>",
+                "defaultValue": "(args: AppComponent) => ({\r\n  component: AppComponent,\r\n  moduleMetadata: {\r\n    declarations: [\r\n      AppComponent,\r\n      LandingComponent,\r\n      SignUpComponent,\r\n    LogInComponent,\r\n    HeaderComponent,\r\n    ListMusicComponent,\r\n    AddMusicComponent,\r\n    EditMusicComponent\r\n    ],\r\n    imports: [\r\n      BrowserModule,\r\n      FormsModule,\r\n      ReactiveFormsModule,\r\n      CommonModule,\r\n      HttpClientModule,\r\n      StoreModule.forRoot(reducers, {}),\r\n      EffectsModule.forRoot([]),\r\n      EffectsModule.forFeature([AuthEffects, MusicEffects]),\r\n      RouterModule.forRoot([\r\n        { path: 'log-in', component: LogInComponent },\r\n        { path: 'sign-up', component: SignUpComponent },\r\n        { path: '', component: LandingComponent },\r\n        { path: 'add-music', component: AddMusicComponent },\r\n        { path: 'list-music', component: ListMusicComponent },\r\n        { path: 'edit-music/:musicId', component: EditMusicComponent },\r\n        { path: '**', redirectTo: '/'}\r\n      ]),\r\n    ],\r\n    providers: [Store, AuthService, { provide: APP_BASE_HREF, useValue: '/' }],\r\n    schemas: [CUSTOM_ELEMENTS_SCHEMA],\r\n  },\r\n  props: { args },\r\n})"
             },
             {
                 "name": "Template",
@@ -2967,7 +2999,7 @@
                 "subtype": "variable",
                 "file": "src/app/header/header.stories.ts",
                 "type": "Story<HeaderComponent>",
-                "defaultValue": "(args: HeaderComponent) => ({\r\n  component: HeaderComponent,\r\n  template: `<app-header></app-header>`,\r\n  styles: ['./app-header.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule, \r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [HeaderComponent],\r\n    providers: [provideMockStore(),AuthService],\r\n  },\r\n  props: args,\r\n})"
+                "defaultValue": "(args: HeaderComponent) => ({\r\n  component: HeaderComponent,\r\n  template: `<app-header></app-header>`,\r\n  styles: ['./app-header.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [HeaderComponent],\r\n    providers: [provideMockStore(), AuthService],\r\n  },\r\n  props: args,\r\n})"
             },
             {
                 "name": "Template",
@@ -2975,7 +3007,7 @@
                 "subtype": "variable",
                 "file": "src/app/components/landing/landing.stories.ts",
                 "type": "Story<LandingComponent>",
-                "defaultValue": "(args: LandingComponent) => ({\r\n  component: LandingComponent,\r\n  template: `<app-landing></app-landing>`,\r\n  styles: ['./landing.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule, \r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [LandingComponent],\r\n    providers: [provideMockStore(),AuthService],\r\n  },\r\n  props: args,\r\n})"
+                "defaultValue": "(args: LandingComponent) => ({\r\n  component: LandingComponent,\r\n  template: `<app-landing></app-landing>`,\r\n  styles: ['./landing.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [LandingComponent],\r\n    providers: [provideMockStore(), AuthService],\r\n  },\r\n  props: args,\r\n})"
             },
             {
                 "name": "Template",
@@ -2983,7 +3015,7 @@
                 "subtype": "variable",
                 "file": "src/app/components/sign-up/signup.stories.ts",
                 "type": "Story<SignUpComponent>",
-                "defaultValue": "(args: SignUpComponent) => ({\r\n  component: SignUpComponent,\r\n  template: `<app-sign-up></app-sign-up>`,\r\n  styles: ['./app-sign-up.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule, \r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [SignUpComponent],\r\n    providers: [provideMockStore(),AuthService],\r\n  },\r\n  props: args,\r\n})"
+                "defaultValue": "(args: SignUpComponent) => ({\r\n  component: SignUpComponent,\r\n  template: `<app-sign-up></app-sign-up>`,\r\n  styles: ['./app-sign-up.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [SignUpComponent],\r\n    providers: [provideMockStore(), AuthService],\r\n  },\r\n  props: args,\r\n})"
             },
             {
                 "name": "Template",
@@ -2991,23 +3023,7 @@
                 "subtype": "variable",
                 "file": "src/app/components/log-in/login.stories.ts",
                 "type": "Story<LogInComponent>",
-                "defaultValue": "(args: LogInComponent) => ({\r\n  component: LogInComponent,\r\n  template: `<app-log-in></app-log-in>`,\r\n  styles: ['./app-log-in.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule, \r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [LogInComponent],\r\n    providers: [provideMockStore(),AuthService],\r\n  },\r\n  props: args,\r\n})"
-            },
-            {
-                "name": "Template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/Music/edit-music/editMusic.stories.ts",
-                "type": "Story<EditMusicComponent>",
-                "defaultValue": "(args: EditMusicComponent) => ({\r\n  component: EditMusicComponent,\r\n  template: `<app-edit-music></app-edit-music>`,\r\n  styles: ['./app-edit-music.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule, \r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [EditMusicComponent],\r\n    providers: [provideMockStore(),AuthService],\r\n  },\r\n  props: args,\r\n})"
-            },
-            {
-                "name": "Template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/Music/add-music/addMusic.stories.ts",
-                "type": "Story<AddMusicComponent>",
-                "defaultValue": "(args: AddMusicComponent) => ({\r\n  component: AddMusicComponent,\r\n  template: `<app-add-music></app-add-music>`,\r\n  styles: ['./app-add-music.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule, \r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [AddMusicComponent],\r\n    providers: [provideMockStore(),AuthService],\r\n  },\r\n  props: args,\r\n})"
+                "defaultValue": "(args: LogInComponent) => ({\r\n  component: LogInComponent,\r\n  template: `<app-log-in></app-log-in>`,\r\n  styles: ['./app-log-in.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [LogInComponent],\r\n    providers: [provideMockStore(), AuthService],\r\n  },\r\n  props: args,\r\n})"
             },
             {
                 "name": "Template",
@@ -3015,7 +3031,31 @@
                 "subtype": "variable",
                 "file": "src/app/components/Music/list-music/listMusic.stories.ts",
                 "type": "Story<ListMusicComponent>",
-                "defaultValue": "(args: ListMusicComponent) => ({\r\n  component: ListMusicComponent,\r\n  template: `<app-list-music></app-list-music>`,\r\n  styles: ['./list-music.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule, \r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [ListMusicComponent],\r\n    providers: [provideMockStore(),AuthService],\r\n  },\r\n  props: args,\r\n})"
+                "defaultValue": "(args: ListMusicComponent) => ({\r\n  component: ListMusicComponent,\r\n  template: `<app-list-music></app-list-music>`,\r\n  styles: ['./list-music.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [ListMusicComponent],\r\n    providers: [provideMockStore(), AuthService, Store],\r\n  },\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/Music/add-music/addMusic.stories.ts",
+                "type": "Story<AddMusicComponent>",
+                "defaultValue": "(args: AddMusicComponent) => ({\r\n  component: AddMusicComponent,\r\n  template: `<app-add-music></app-add-music>`,\r\n  styles: ['./app-add-music.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [AddMusicComponent],\r\n    providers: [provideMockStore(), AuthService],\r\n  },\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/Music/edit-music/editMusic.stories.ts",
+                "type": "Story<EditMusicComponent>",
+                "defaultValue": "(args: EditMusicComponent) => ({\r\n  component: EditMusicComponent,\r\n  template: `<app-edit-music></app-edit-music>`,\r\n  styles: ['./app-edit-music.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [EditMusicComponent],\r\n    providers: [provideMockStore(), AuthService],\r\n  },\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template1",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/log-in/login.stories.ts",
+                "type": "Story<LogInComponent>",
+                "defaultValue": "(args: LogInComponent) => ({\r\n  component: LogInComponent,\r\n  template: `<app-log-in></app-log-in>`,\r\n  styles: ['./app-log-in.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [LogInComponent],\r\n    providers: [provideMockStore(), AuthService],\r\n  },\r\n  props: args,\r\n})"
             },
             {
                 "name": "UPDATE_MUSIC_SUCCESS",
@@ -3159,24 +3199,6 @@
             }
         ],
         "groupedVariables": {
-            "src/app/components/Music/add-music/addMusic.stories.ts": [
-                {
-                    "name": "Add",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/Music/add-music/addMusic.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/Music/add-music/addMusic.stories.ts",
-                    "type": "Story<AddMusicComponent>",
-                    "defaultValue": "(args: AddMusicComponent) => ({\r\n  component: AddMusicComponent,\r\n  template: `<app-add-music></app-add-music>`,\r\n  styles: ['./app-add-music.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule, \r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [AddMusicComponent],\r\n    providers: [provideMockStore(),AuthService],\r\n  },\r\n  props: args,\r\n})"
-                }
-            ],
             "src/app/store/actions/music.actions.ts": [
                 {
                     "name": "ADD_DATA_SUCCESS",
@@ -3243,6 +3265,24 @@
                     "defaultValue": "'[Musics] Update Recipe'"
                 }
             ],
+            "src/app/app.stories.ts": [
+                {
+                    "name": "App",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/app.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/app.stories.ts",
+                    "type": "Story<AppComponent>",
+                    "defaultValue": "(args: AppComponent) => ({\r\n  component: AppComponent,\r\n  moduleMetadata: {\r\n    declarations: [\r\n      AppComponent,\r\n      LandingComponent,\r\n      SignUpComponent,\r\n    LogInComponent,\r\n    HeaderComponent,\r\n    ListMusicComponent,\r\n    AddMusicComponent,\r\n    EditMusicComponent\r\n    ],\r\n    imports: [\r\n      BrowserModule,\r\n      FormsModule,\r\n      ReactiveFormsModule,\r\n      CommonModule,\r\n      HttpClientModule,\r\n      StoreModule.forRoot(reducers, {}),\r\n      EffectsModule.forRoot([]),\r\n      EffectsModule.forFeature([AuthEffects, MusicEffects]),\r\n      RouterModule.forRoot([\r\n        { path: 'log-in', component: LogInComponent },\r\n        { path: 'sign-up', component: SignUpComponent },\r\n        { path: '', component: LandingComponent },\r\n        { path: 'add-music', component: AddMusicComponent },\r\n        { path: 'list-music', component: ListMusicComponent },\r\n        { path: 'edit-music/:musicId', component: EditMusicComponent },\r\n        { path: '**', redirectTo: '/'}\r\n      ]),\r\n    ],\r\n    providers: [Store, AuthService, { provide: APP_BASE_HREF, useValue: '/' }],\r\n    schemas: [CUSTOM_ELEMENTS_SCHEMA],\r\n  },\r\n  props: { args },\r\n})"
+                }
+            ],
             "src/app/theme-color.ts": [
                 {
                     "name": "dark",
@@ -3261,12 +3301,20 @@
                     "defaultValue": "{\r\n    name: 'light',\r\n    properties: {\r\n      '--background-default': '#F4FAFF',\r\n      '--primary-default': '#000000',\r\n      '--popup-default': '#000000',\r\n    }\r\n  }"
                 }
             ],
-            "src/app/components/Music/edit-music/editMusic.stories.ts": [
+            "src/app/header/header.stories.ts": [
                 {
-                    "name": "Edit",
+                    "name": "Default",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/Music/edit-music/editMusic.stories.ts",
+                    "file": "src/app/header/header.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "NotAuth",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/header/header.stories.ts",
                     "type": "",
                     "defaultValue": "Template.bind({})"
                 },
@@ -3274,14 +3322,84 @@
                     "name": "Template",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/Music/edit-music/editMusic.stories.ts",
-                    "type": "Story<EditMusicComponent>",
-                    "defaultValue": "(args: EditMusicComponent) => ({\r\n  component: EditMusicComponent,\r\n  template: `<app-edit-music></app-edit-music>`,\r\n  styles: ['./app-edit-music.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule, \r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [EditMusicComponent],\r\n    providers: [provideMockStore(),AuthService],\r\n  },\r\n  props: args,\r\n})"
+                    "file": "src/app/header/header.stories.ts",
+                    "type": "Story<HeaderComponent>",
+                    "defaultValue": "(args: HeaderComponent) => ({\r\n  component: HeaderComponent,\r\n  template: `<app-header></app-header>`,\r\n  styles: ['./app-header.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [HeaderComponent],\r\n    providers: [provideMockStore(), AuthService],\r\n  },\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/components/landing/landing.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/landing/landing.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/landing/landing.stories.ts",
+                    "type": "Story<LandingComponent>",
+                    "defaultValue": "(args: LandingComponent) => ({\r\n  component: LandingComponent,\r\n  template: `<app-landing></app-landing>`,\r\n  styles: ['./landing.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [LandingComponent],\r\n    providers: [provideMockStore(), AuthService],\r\n  },\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/components/sign-up/signup.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/sign-up/signup.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/sign-up/signup.stories.ts",
+                    "type": "Story<SignUpComponent>",
+                    "defaultValue": "(args: SignUpComponent) => ({\r\n  component: SignUpComponent,\r\n  template: `<app-sign-up></app-sign-up>`,\r\n  styles: ['./app-sign-up.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [SignUpComponent],\r\n    providers: [provideMockStore(), AuthService],\r\n  },\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/components/log-in/login.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/log-in/login.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Logins",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/log-in/login.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template1.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/log-in/login.stories.ts",
+                    "type": "Story<LogInComponent>",
+                    "defaultValue": "(args: LogInComponent) => ({\r\n  component: LogInComponent,\r\n  template: `<app-log-in></app-log-in>`,\r\n  styles: ['./app-log-in.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [LogInComponent],\r\n    providers: [provideMockStore(), AuthService],\r\n  },\r\n  props: args,\r\n})"
+                },
+                {
+                    "name": "Template1",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/log-in/login.stories.ts",
+                    "type": "Story<LogInComponent>",
+                    "defaultValue": "(args: LogInComponent) => ({\r\n  component: LogInComponent,\r\n  template: `<app-log-in></app-log-in>`,\r\n  styles: ['./app-log-in.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [LogInComponent],\r\n    providers: [provideMockStore(), AuthService],\r\n  },\r\n  props: args,\r\n})"
                 }
             ],
             "src/app/components/Music/list-music/listMusic.stories.ts": [
                 {
-                    "name": "Edit",
+                    "name": "Default",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "src/app/components/Music/list-music/listMusic.stories.ts",
@@ -3294,7 +3412,43 @@
                     "subtype": "variable",
                     "file": "src/app/components/Music/list-music/listMusic.stories.ts",
                     "type": "Story<ListMusicComponent>",
-                    "defaultValue": "(args: ListMusicComponent) => ({\r\n  component: ListMusicComponent,\r\n  template: `<app-list-music></app-list-music>`,\r\n  styles: ['./list-music.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule, \r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [ListMusicComponent],\r\n    providers: [provideMockStore(),AuthService],\r\n  },\r\n  props: args,\r\n})"
+                    "defaultValue": "(args: ListMusicComponent) => ({\r\n  component: ListMusicComponent,\r\n  template: `<app-list-music></app-list-music>`,\r\n  styles: ['./list-music.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [ListMusicComponent],\r\n    providers: [provideMockStore(), AuthService, Store],\r\n  },\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/components/Music/add-music/addMusic.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/Music/add-music/addMusic.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/Music/add-music/addMusic.stories.ts",
+                    "type": "Story<AddMusicComponent>",
+                    "defaultValue": "(args: AddMusicComponent) => ({\r\n  component: AddMusicComponent,\r\n  template: `<app-add-music></app-add-music>`,\r\n  styles: ['./app-add-music.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [AddMusicComponent],\r\n    providers: [provideMockStore(), AuthService],\r\n  },\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/components/Music/edit-music/editMusic.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/Music/edit-music/editMusic.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/Music/edit-music/editMusic.stories.ts",
+                    "type": "Story<EditMusicComponent>",
+                    "defaultValue": "(args: EditMusicComponent) => ({\r\n  component: EditMusicComponent,\r\n  template: `<app-edit-music></app-edit-music>`,\r\n  styles: ['./app-edit-music.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule,\r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [EditMusicComponent],\r\n    providers: [provideMockStore(), AuthService],\r\n  },\r\n  props: args,\r\n})"
                 }
             ],
             "src/environments/environment.prod.ts": [
@@ -3314,25 +3468,7 @@
                     "subtype": "variable",
                     "file": "src/environments/environment.ts",
                     "type": "object",
-                    "defaultValue": "{\n  production: false\n}"
-                }
-            ],
-            "src/app/header/header.stories.ts": [
-                {
-                    "name": "Header",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/header/header.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/header/header.stories.ts",
-                    "type": "Story<HeaderComponent>",
-                    "defaultValue": "(args: HeaderComponent) => ({\r\n  component: HeaderComponent,\r\n  template: `<app-header></app-header>`,\r\n  styles: ['./app-header.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule, \r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [HeaderComponent],\r\n    providers: [provideMockStore(),AuthService],\r\n  },\r\n  props: args,\r\n})"
+                    "defaultValue": "{\n  apiUrl: 'http://localhost:3000',\n  production: false,\n}"
                 }
             ],
             "src/app/store/reducers/auth.reducers.ts": [
@@ -3353,42 +3489,6 @@
                     "file": "src/app/store/reducers/music.reducers.ts",
                     "type": "State",
                     "defaultValue": "{\r\n    musics: [],\r\n    user: null\r\n  \r\n}"
-                }
-            ],
-            "src/app/components/landing/landing.stories.ts": [
-                {
-                    "name": "List",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/landing/landing.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/landing/landing.stories.ts",
-                    "type": "Story<LandingComponent>",
-                    "defaultValue": "(args: LandingComponent) => ({\r\n  component: LandingComponent,\r\n  template: `<app-landing></app-landing>`,\r\n  styles: ['./landing.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule, \r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [LandingComponent],\r\n    providers: [provideMockStore(),AuthService],\r\n  },\r\n  props: args,\r\n})"
-                }
-            ],
-            "src/app/components/log-in/login.stories.ts": [
-                {
-                    "name": "Login",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/log-in/login.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/log-in/login.stories.ts",
-                    "type": "Story<LogInComponent>",
-                    "defaultValue": "(args: LogInComponent) => ({\r\n  component: LogInComponent,\r\n  template: `<app-log-in></app-log-in>`,\r\n  styles: ['./app-log-in.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule, \r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [LogInComponent],\r\n    providers: [provideMockStore(),AuthService],\r\n  },\r\n  props: args,\r\n})"
                 }
             ],
             "src/app/store/app.states.ts": [
@@ -3415,24 +3515,6 @@
                     "file": "src/app/store/app.states.ts",
                     "type": "",
                     "defaultValue": "createFeatureSelector<AppState>('music')"
-                }
-            ],
-            "src/app/components/sign-up/signup.stories.ts": [
-                {
-                    "name": "SingUp",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/sign-up/signup.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/sign-up/signup.stories.ts",
-                    "type": "Story<SignUpComponent>",
-                    "defaultValue": "(args: SignUpComponent) => ({\r\n  component: SignUpComponent,\r\n  template: `<app-sign-up></app-sign-up>`,\r\n  styles: ['./app-sign-up.component.scss'],\r\n  moduleMetadata: {\r\n    imports: [\r\n      RouterTestingModule.withRoutes([]),\r\n      FormsModule,\r\n       HttpClientModule, \r\n      ReactiveFormsModule,\r\n    ],\r\n    declarations: [SignUpComponent],\r\n    providers: [provideMockStore(),AuthService],\r\n  },\r\n  props: args,\r\n})"
                 }
             ]
         },
@@ -3595,6 +3677,26 @@
                 "status": "low"
             },
             {
+                "filePath": "src/app/app.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "App",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/app.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/canActivate.ts",
                 "type": "guard",
                 "linktype": "guard",
@@ -3617,7 +3719,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "Add",
+                "name": "Default",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -3646,7 +3748,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "Edit",
+                "name": "Default",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -3675,7 +3777,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "Edit",
+                "name": "Default",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -3704,7 +3806,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "List",
+                "name": "Default",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -3733,7 +3835,17 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "Login",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/log-in/login.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Logins",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -3744,6 +3856,16 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/log-in/login.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template1",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -3762,7 +3884,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "SingUp",
+                "name": "Default",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -3791,7 +3913,17 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "Header",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/header/header.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "NotAuth",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"

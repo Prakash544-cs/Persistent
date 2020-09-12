@@ -32,8 +32,8 @@ const Template: Story<LandingComponent> = (args: LandingComponent) => ({
   props: args,
 });
 
-export const MusicList = Template.bind({});
-MusicList.args = {
+export const Default = Template.bind({});
+Default.args = {
   viewLogin : true,
 };
 

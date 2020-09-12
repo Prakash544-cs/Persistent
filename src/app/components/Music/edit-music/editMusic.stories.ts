@@ -31,8 +31,8 @@ const Template: Story<EditMusicComponent> = (args: EditMusicComponent) => ({
   props: args,
 });
 
-export const Edit = Template.bind({});
-Edit.args = {
+export const Default = Template.bind({});
+Default.args = {
   viewLogin : true,
 };
 

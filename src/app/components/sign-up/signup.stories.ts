@@ -32,8 +32,8 @@ const Template: Story<SignUpComponent> = (args: SignUpComponent) => ({
   props: args,
 });
 
-export const SingUp = Template.bind({});
-SingUp.args = {
+export const Default = Template.bind({});
+Default.args = {
   viewLogin : true,
 };
 
